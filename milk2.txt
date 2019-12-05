@@ -1,0 +1,104 @@
+  1 /*
+  2 ID : deok
+  3 LANG : c
+  4 TASK : milk2
+  5 */
+  6 #include <stdio.h>
+  7 #include <stdlib.h>
+  8 #include <assert.h>
+  9 typedef struct {
+ 10     int start;
+ 11     int end;
+ 12 }worktime;
+ 13 void block(worktime[],int);
+ 14 void clean(worktime[],int);
+ 15 int longtime(worktime[],int a);
+ 16 int shorttime(worktime[],int a);
+ 17 int compare(const void *a,const void *b){
+ 18     worktime *m1=(const worktime*)a;
+ 19     worktime *m2=(const worktime*)b;
+ 20
+ 21     return m1->start-m2->start;
+ 22
+ 23 }
+ 24 int main(){
+ 25     FILE *fout,*fin;
+ 26
+ 27     fin=fopen("milk2.in","r");
+ 28     fout=fopen("milk2.out","w");
+ 29     assert((fin!=NULL)&&(fout!=NULL));
+ 30
+ 31     int N;
+ 32     fscanf(fin,"%d",&N);
+ 33     worktime A[N];
+ 34
+ 35     for(int i=0;i<N;i++){
+ 36         fscanf(fin,"%d" "%d",&(A[i].start),&(A[i].end));
+ 37     }
+ 38
+ 39     block(A,N);
+ 40     clean(A,N);
+ 41
+ 42     fprintf(fout,"%d %d\n",longtime(A,N),shorttime(A,N));
+ 43
+ 44     fclose(fin);
+ 45     fclose(fout);
+ 46
+ 47     return 0;
+ 48 }
+ 49 void block(worktime q[],int a){
+ 50     for(int j=0;j<a;j++){
+ 51         for(int k=0;k<a;k++){
+ 52             if((q[j].end>=q[k].start)&&q[j].end<=q[k].end){
+ 53                 q[k].start=(q[k].start>=q[j].start)?q[j].start:q[k].start;
+ 54             }
+ 55             else if((q[j].start>=q[k].start)&&(q[j].start<=q[k].end)){
+ 56                 q[k].end=(q[k].end<=q[j].end)?q[j].end:q[k].end;
+ 57             }
+ 58             else if((q[j].start<=q[k].start)&&(q[j].end>=q[k].end)){
+ 59                 q[k].start=q[j].start;
+ 60                 q[k].end=q[j].end;
+ 61             }
+ 62         }
+ 63     }
+ 64 }
+ 65 void clean(worktime q[],int a){
+ 66     int s,e;
+ 67
+ 68     for(int k=0;k<a;k++){
+ 69         for(int i=0;i<a;i++){
+ 70             s=q[k].start;
+ 71             e=q[k].end;
+ 72             if((s>=q[i].start)&&(e<=q[i].end)&&(i!=k)){
+ 73                 q[k].start=0;
+ 74                 q[k].end=-0;
+ 75             }
+ 76         }
+ 77     }
+ 78     qsort(q,a,sizeof(worktime),compare);
+ 79 }
+ 80 int longtime(worktime q[],int a){
+ 81     int longtime=0;
+ 82
+ 83     for(int i=0;i<a;i++)
+ 84         if(longtime<=(q[i].end-q[i].start))
+ 85             longtime=q[i].end-q[i].start;
+ 86
+ 87     return longtime;
+ 88 }
+ 89 int shorttime(worktime q[],int a){
+ 90     int shorttime=0;
+ 91     int c1,c2;
+ 92
+ 93     for(int i=0;i<a-1;i++){
+ 94         if(q[i].start!=q[i].end)
+ 95             c1=q[i].end;
+ 96         if(q[i+1].start!=q[i+1].end){
+ 97             c2=q[i+1].start;
+ 98             shorttime=(shorttime<=(c2-c1))?c2-c1:shorttime;
+ 99         }
+100     }
+101     if(c1==0)
+102         shorttime=0;
+103     return shorttime;
+104 }

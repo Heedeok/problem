@@ -1,0 +1,69 @@
+   1 /*
+  2 ID : deok
+  3 LANG : c
+  4 TASK : friday
+  5 */
+  6 #include <stdio.h>
+  7 #include <stdlib.h>
+  8 #include <assert.h>
+  9 int ycheck(int);
+ 10 int whatday(int,int);
+ 11 int main(){
+ 12     FILE *fin,*fout;
+ 13     fin=fopen("friday.in","r");
+ 14     fout=fopen("friday.out","w");
+ 15     assert((fin!=NULL)&&(fout!=NULL));
+ 16
+ 17     int N;
+ 18     int day[7]={0,0,0,0,0,0,0};
+ 19     fscanf(fin,"%d",&N);
+ 20
+ 21     for(int year=1900;year<1900+N;year++){
+ 22         for(int month=1;month<13;month++){
+ 23             switch(whatday(year,month)%7){
+ 24                 case 0:day[0]++;
+ 25                     break;
+ 26                 case 1:day[1]++;
+ 27                     break;
+ 28                 case 2:day[2]++;
+ 29                     break;
+ 30                 case 3:day[3]++;
+ 31                     break;
+ 32                 case 4:day[4]++;
+ 33                     break;
+ 34                 case 5:day[5]++;
+ 35                     break;
+ 36                 case 6:day[6]++;
+ 37                     break;
+ 38             }       }   }
+ 39     for(int i=0;i<7;i++){
+ 40         fprintf(fout,"%d",day[i]);
+ 41         if(i!=6) fprintf(fout, " ");
+ 42     }
+ 43     fprintf(fout,"\n");
+ 44
+ 45     fclose(fin);
+ 46     fclose(fout);
+ 47     return 0;
+ 48 }
+ 49 int ycheck(int a){
+ 50     if((a%4==0)&&!(a%100==0)||(a%400==0)){
+ 51         return 1;}
+ 52     else return 0;
+ 53 }
+ 54 int whatday(int year, int month){
+ 55     int sum=0;
+ 56     int basicyear[12]={31,28,31,30,31,30,31,31,30,31,30,31};
+ 57
+ 58     for(int i=1900;i<year;i++){
+ 59         if(ycheck(i))
+ 60             sum+=366;
+ 61         else sum+=365;
+ 62         }
+ 63     for(int j=1;j<month;j++){
+ 64         if((j==2)&&ycheck(year))
+ 65             sum+=29;
+ 66         else sum+=basicyear[j-1];}
+ 67     return sum;
+ 68 }
+

@@ -1,0 +1,48 @@
+  1 /*
+  2 ID : deok
+  3 LANG: C
+  4 TASK: ride
+  5 */
+  6
+  7 #include <stdio.h>
+  8 #include <stdlib.h>
+  9 #include <assert.h>
+ 10
+ 11 int main(){
+ 12     FILE *fin,*fout;
+ 13     char comet[7], group[7];
+ 14
+ 15     fin=fopen("ride.in","r");
+ 16     fout=fopen("ride.out","w");
+ 17     assert((fin !=NULL)&&(fout!=NULL));
+ 18
+ 19     fscanf(fin,"%s",comet);
+ 20     fscanf(fin,"%s",group);
+ 21
+ 22     int i=0;
+ 23     int comet_num=1;
+ 24     int group_num=1;
+ 25
+ 26     while(comet[i]!='\0'){
+ 27         comet_num=comet_num*(comet[i]-64);
+ 28         i++;
+ 29         }
+ 30     i=0;
+ 31     do{
+ 32         group_num=group_num*(group[i]-64);
+ 33         i++;
+ 34     }while(group[i]!='\0');
+ 35
+ 36     comet_num=comet_num%47;
+ 37     group_num=group_num%47;
+ 38
+ 39     if(group_num==comet_num)
+ 40         fprintf(fout, "GO\n");
+ 41     else
+ 42         fprintf(fout,"STAY\n");
+ 43
+ 44     fclose(fin);
+ 45     fclose(fout);
+ 46
+ 47     return 0;
+ 48 }

@@ -1,0 +1,135 @@
+  1 /*
+  2 ID : deok
+  3 LANG : c
+  4 TASK : namenum
+  5 */
+  6 #include <stdio.h>
+  7 #include <stdlib.h>
+  8 #include <assert.h>
+  9 #include <math.h>
+ 10 #define D 4617
+ 11 typedef struct{
+ 12     char a[13];
+ 13 }name;
+ 14 void searchname(int,char[],name*[]);//D개중에 이름없으면 삭제
+ 15 char chage1(char);//변환1
+ 16 char chage2(char);//변환2
+ 17 char chage3(char);//변환3
+ 18 int main(){
+ 19     FILE *fin,*fout,*fp;
+ 20     fin=fopen("namenum.in","r");
+ 21     fout=fopen("namenum.out","w");
+ 22     fp=fopen("/tmp/dict.txt","r");
+ 23     assert((fin!=NULL)&&(fout!=NULL));
+ 24
+ 25     char N[15];
+ 26     fscanf(fin,"%s",N);
+ 27     int j=12;
+ 28
+ 29     for(int i=0;i<j;i++){
+ 30         if(N[i]=='\0'){
+ 31             j=i;
+ 32             break;
+ 33             }
+ 34     }
+ 35
+ 36     name* cow[D];
+ 37     for(int i=0;i<D;i++){
+ 38         cow[i]=(name*)malloc(sizeof(name));
+ 39         fgets(cow[i]->a,sizeof(name),fp);
+ 40     }
+ 41     int none=D;
+ 42     searchname(j,N,cow);
+ 43     for(int i=0;i<D;i++)
+ 44         if(cow[i]->a[0]!='\0'){
+ 45             fprintf(fout,"%s",cow[i]->a);
+ 46             none--;
+ 47         }
+ 48
+ 49     if(none==D)
+ 50         fprintf(fout,"NONE\n");
+ 51
+ 52     fprintf(fout,"\n");
+ 53
+ 54     fclose(fin);
+ 55     fclose(fout);
+ 56     fclose(fp);
+ 57
+ 58     return 0;
+ 59 }
+ 60 void searchname(int n,char q[],name* test[]){
+ 61     int k=0;
+ 62     for(int i=0;i<D;i++){
+ 63         if(k==n)
+ 64             break;
+ 65         if((test[i]->a[n]!='\n')&&(n!=12))
+ 66             test[i]->a[0]='\0';
+ 67         if(test[i]->a[k]!=chage1(q[k])&&(test[i]->a[k]!=chage2(q[k]))&&(test[i]->a[k]!=chage3(q[k]))){
+ 68             test[i]->a[0]='\0';
+ 69         }
+ 70         if((i==D-1)&&(k!=n)){
+ 71             k++;
+ 72             i=-1;
+ 73         }
+ 74     }
+ 75 }
+ 76 char chage1(char a){
+ 77     switch (a){
+ 78         case '2': return 'A';
+ 79             break;
+ 80         case '3': return 'D';
+ 81             break;
+ 82         case '4': return 'G';
+ 83             break;
+ 84         case '5': return 'J';
+ 85             break;
+ 86         case '6': return 'M';
+ 87             break;
+ 88         case '7': return 'P';
+ 89             break;
+ 90         case '8': return 'T';
+ 91             break;
+ 92         case '9': return 'W';
+ 93             break;
+ 94     }
+ 95 }
+ 96 char chage2(char  a){
+ 97     switch (a){
+ 98         case '2': return 'B';
+ 99             break;
+100         case '3': return 'E';
+101             break;
+102         case '4': return 'H';
+103             break;
+104         case '5':   return 'K';
+105             break;
+106         case '6':   return 'N';
+107             break;
+108         case '7': return 'R';
+109             break;
+110         case '8':   return 'U';
+111             break;
+112         case '9': return 'X';
+113             break;
+114     }
+115 }
+116 char chage3(char a){
+117     switch (a){
+118         case '2': return 'C';
+119             break;
+120         case '3': return 'F';
+121             break;
+122         case '4': return 'I';
+123             break;
+124         case '5':   return 'L';
+125             break;
+126         case '6':   return 'O';
+127             break;
+128         case '7': return 'S';
+129             break;
+130         case '8':   return 'V';
+131             break;
+132         case '9': return 'Y';
+133             break;
+134     }
+135 }

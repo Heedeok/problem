@@ -1,0 +1,62 @@
+  1 /*
+  2 ID : deok
+  3 LANG : c
+  4 TASK: gift1
+  5 */
+  6 #include <stdio.h>
+  7 #include <stdlib.h>
+  8 #include <assert.h>
+  9 #include <string.h>
+ 10
+ 11 int main(){
+ 12     FILE *fin,*fout;
+ 13
+ 14     fin=fopen("gift1.in","r");
+ 15     fout=fopen("gift1.out","w");
+ 16     assert((fin!=NULL)&&(fout!=NULL));
+ 17
+ 18     int NP;
+ 19     fscanf(fin,"%d",&NP);
+ 20
+ 21     char name[10][15];
+ 22     int money[10];
+ 23     int j,k;
+ 24
+ 25     for(j=0;j<NP;j++)
+ 26         fscanf(fin,"%s",name[j]);
+ 27
+ 28     char person1[15];
+ 29     int gift,NG;
+ 30     char person2[10][15];
+ 31
+ 32     for(k=0;k<NP;k++){
+ 33         fscanf(fin,"%s" "%d" "%d",person1,&gift,&NG);
+ 34
+ 35         for(j=0;j<NG;j++)
+ 36             fscanf(fin,"%s",person2[j]);
+ 37
+ 38         for(j=0;j<NP;j++){
+ 39             if(strcmp(person1,name[j])==0){
+ 40                 if(NG==0){
+ 41                     money[j]+=(-gift);
+ 42                     break;}
+ 43                 money[j]+=(-gift)+gift%NG;
+ 44                 break;}}
+ 45
+ 46         for(j=0;j<NG;j++){
+ 47             for(int i=0;i<NP;i++){
+ 48                 if(strcmp(person2[j],name[i])==0)
+ 49                     money[i]+=gift/NG;
+ 50             }
+ 51         }
+ 52     }
+ 53
+ 54     for(j=0;j<NP;j++)
+ 55         fprintf(fout,"%s %d\n",name[j],money[j]);
+ 56
+ 57
+ 58     fclose(fin);
+ 59     fclose(fout);
+ 60
+ 61 return 0;
+ 62}

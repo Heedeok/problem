@@ -1,0 +1,107 @@
+  1 /*
+  2 ID : deok
+  3 LANG : c
+  4 TASK : palsquare
+  5 */
+  6 #include <stdio.h>
+  7 #include <stdlib.h>
+  8 #include <assert.h>
+  9 #include <string.h>
+ 10 typedef struct{
+ 11     char p[300][19];
+ 12 }number;
+ 13 void set (int,number*);
+ 14 void setsquare(int,number*);
+ 15 void check (number*);
+ 16 int bitcheck(int,int);
+ 17 int main(){
+ 18     FILE *fin,*fout;
+ 19     fin=fopen("palsquare.in","r");
+ 20     fout=fopen("palsquare.out","w");
+ 21     assert((fin!=NULL)&&(fout!=NULL));
+ 22
+ 23     int N;
+ 24     fscanf(fin,"%d",&N);
+ 25
+ 26     number *A1,*A2;
+ 27     A1=(number*)malloc(sizeof(number));
+ 28     A2=(number*)malloc(sizeof(number));
+ 29
+ 30
+ 31     set(N,A1);
+ 32     setsquare(N,A2);
+ 33
+ 34     check(A2);
+ 35
+ 36     for(int i=0;i<300;i++)
+ 37         if(A2->p[i][0]!='\0')
+ 38             fprintf(fout,"%s %s\n",A1->p[i],A2->p[i]);
+ 39
+ 40     fclose(fin);
+ 41     fclose(fout);
+ 42
+ 43     free(A1);
+ 44     free(A2);
+ 45
+ 46     return 0;
+ 47 }
+ 48 void set(int N,number*A){
+ 49     for(int i=0;i<300;i++){
+ 50         int bit=bitcheck(N,(i+1));
+ 51         A->p[i][bit+1]='\0';
+ 52         for(int j=(i+1);bit>=0;bit--){
+ 53             if((N>10)&&(j%N)>=10){
+ 54                 A->p[i][bit]='A'+(j%N)-10;
+ 55                 j=j/N;
+ 56             }
+ 57             else {
+ 58                 int x=j%N;
+ 59                 j=j/N;
+ 60                 A->p[i][bit]=48+x;;
+ 61             }
+ 62         }
+ 63     }
+ 64 }
+ 65 void setsquare(int N,number*A){
+ 66     for(int i=0;i<300;i++){
+ 67         int bit=bitcheck(N,((i+1)*(i+1)));
+ 68         A->p[i][bit+1]='\0';
+ 69         for(int j=((i+1)*(i+1));bit>=0;bit--){
+ 70             if((N>10)&&((j%N)>=10)){
+ 71                 A->p[i][bit]='A'+(j%N)-10;
+ 72                 j=j/N;
+ 73             }
+ 74             else {
+ 75                 int x=j%N;
+ 76                 j=j/N;
+ 77                 A->p[i][bit]=48+x;
+ 78             }
+ 79         }
+ 80     }
+ 81 }
+ 82 void check(number*A){
+ 83     int length;
+ 84
+ 85     for(int i=0;i<300;i++){
+ 86         length=strlen(A->p[i]);
+ 87         int begin=0;
+ 88         int end=length-1;
+ 89         while(begin<end){
+ 90             if(A->p[i][begin]!=A->p[i][end]){
+ 91                 A->p[i][0]='\0';}
+ 92             end--;
+ 93             begin++;
+ 94         }
+ 95     }
+ 96 }
+ 97 int bitcheck(int N,int a){
+ 98     int bit=0;
+ 99     int A=a;
+100
+101     while(A/N!=0){
+102         A=A/N;
+103         bit++;
+104     }
+105     return bit;
+106 }
+

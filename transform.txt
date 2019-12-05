@@ -1,0 +1,167 @@
+  1 /*
+  2 ID : deok
+  3 LANG : c
+  4 TASK : transform
+  5 */
+  6 #include <stdio.h>
+  7 #include <stdlib.h>
+  8 #include <assert.h>
+  9 int check (int a,char [][a],char[][a]);
+ 10 int p1(int a,char[][a],char[][a]);
+ 11 int p2(int a,char[][a],char[][a]);
+ 12 int p3(int a,char[][a],char[][a]);
+ 13 int p4(int a,char[][a],char[][a]);
+ 14 int p5(int a,char[][a],char[][a]);
+ 15 int p6(int a,char[][a],char[][a]);
+ 16 int main(){
+ 17     FILE *fout,*fin;
+ 18
+ 19     fin=fopen("transform.in","r");
+ 20     fout=fopen("transform.out","w");
+ 21     assert((fin!=NULL)&&(fout!=NULL));
+ 22
+ 23     int N;
+ 24     fscanf(fin,"%d",&N);
+ 25
+ 26     char ex[N][N+1];//배열에 패턴을 저장
+ 27     for(int i=0;i<N;i++)
+ 28         fscanf(fin,"%s",ex[i]);
+ 29
+ 30     char af[N][N+1];
+ 31     for(int i=0;i<N;i++)
+ 32         fscanf(fin,"%s",af[i]);
+ 33
+ 34     fprintf(fout,"%d\n",check(N,ex,af));
+ 35
+ 36     fclose(fin);
+ 37     fclose(fout);
+ 38
+ 39     return 0;
+ 40 }
+ 41 int check(int a,char ex[][a+1],char af[][a+1]){
+ 42     int pattern=7;
+ 43
+ 44     if(p1(a,ex,af)==1)
+ 45         pattern=1;
+ 46     else if(p2(a,ex,af)==1)
+ 47         pattern=2;
+ 48     else if(p3(a,ex,af)==1)
+ 49         pattern=3;
+ 50     else if(p4(a,ex,af)==1)
+ 51         pattern=4;
+ 52     else if(p5(a,ex,af)==1)
+ 53         pattern=5;
+ 54     else if(p6(a,ex,af)==1)
+ 55         pattern=6;
+ 56
+ 57     return pattern;
+ 58 }
+ 59 int p1(int e,char q[][e+1],char w[][e+1]){
+ 60     char r[e][e+1];
+ 61
+ 62     for(int i=0;i<e;i++)
+ 63         for(int j=0;j<e;j++)
+ 64             r[i][j]=q[e-1-j][i];
+ 65
+ 66     for(int i=0;i<e;i++)
+ 67         for(int j=0;j<e;j++)
+ 68             if(w[i][j]!=r[i][j])
+ 69                 return 0;
+ 70
+ 71     return 1;
+ 72
+ 73 }
+ 74 int p2(int e,char q[][e+1],char w[][e+1]){
+ 75     char r[e][e+1];
+ 76
+ 77     for(int i=0;i<e;i++)
+ 78         for(int j=0;j<e;j++)
+ 79             r[i][j]=q[e-1-i][e-1-j];
+ 80
+ 81     for(int i=0;i<e;i++)
+ 82         for(int j=0;j<e;j++)
+ 83             if(w[i][j]!=r[i][j])
+ 84                 return 0;
+ 85
+ 86     return 1;
+ 87 }
+ 88 int p3(int e,char q[][e+1],char w[][e+1]){
+ 89     char r[e][e+1];
+ 90
+ 91     for(int i=0;i<e;i++)
+ 92         for(int j=0;j<e;j++)
+ 93             r[i][j]=q[j][e-1-i];
+ 94
+ 95     for(int i=0;i<e;i++)
+ 96         for(int j=0;j<e;j++)
+ 97             if(w[i][j]!=r[i][j])
+ 98                 return 0;
+ 99
+100     return 1;
+101 }
+102 int p4(int e,char q[][e+1],char w[][e+1]){
+103     char r[e][e+1];
+104
+105     for(int i=0;i<e;i++)
+106         for(int j=0;j<e;j++)
+107             r[i][j]=q[i][e-1-j];
+108
+109     for(int i=0;i<e;i++)
+110         for(int j=0;j<e;j++)
+111             if(w[i][j]!=r[i][j])
+112                 return 0;
+113
+114     return 1;
+115 }
+116 int p5(int e,char q[][e+1],char w[][e+1]){
+117     char r1[e][e+1];//4번 패턴적용
+118     char r2[e][e+1];//4번후 1,2,3, 적용
+119
+120     for(int i=0;i<e;i++)
+121         for(int j=0;j<e;j++)
+122             r1[i][j]=q[i][e-1-j];
+123
+124     for(int i=0;i<e;i++)
+125         for(int j=0;j<e;j++)
+126             r2[i][j]=r1[e-1-j][i];//4-1적용
+127
+128     for(int i=0;i<e;i++)
+129         for(int j=0;j<e;j++)
+130             if(w[i][j]!=r2[i][j]){
+131                 goto next1;}
+132
+133     return 1;
+134     next1:;
+135
+136     for(int i=0;i<e;i++)
+137         for(int j=0;j<e;j++)
+138             r2[i][j]=r1[e-1-i][e-1-j];//4-2적용
+139
+140     for(int i=0;i<e;i++)
+141         for(int j=0;j<e;j++)
+142             if(w[i][j]!=r2[i][j]){
+143                 goto next2;}
+144
+145     return 1;
+146     next2:;
+147
+148     for(int i=0;i<e;i++)
+149         for(int j=0;j<e;j++)
+150             r2[i][j]=r1[i][e-1-j];//4-3적용
+151
+152     for(int i=0;i<e;i++)
+153         for(int j=0;j<e;j++)
+154             if(w[i][j]!=r2[i][j])
+155                 return 0;
+156
+157     return 1;
+158 }
+159 int p6(int e,char q[][e+1],char w[][e+1]){
+160     for(int i=0;i<e;i++)
+161         for(int j=0;j<e;j++)
+162             if(w[i][j]!=q[i][j])
+163                 return 0;
+164
+165     return 1;
+166 }
+167
