@@ -1,0 +1,21 @@
+import java.util.Scanner;
+
+public class 주휴수당 {
+
+	public static void main(String[] args) {
+		int a, b;
+		Scanner c= new Scanner(System.in);
+		System.out.println("일주일 동안 총 근로시간 : ");
+		a=c.nextInt();
+		if(a<15){
+			System.out.println("주휴수당이 없습니다.");
+			System.out.println("일주일 근무 시간이 15시간 이상이어야 합니다.");
+		}
+		else{
+			System.out.println("시급 : ");
+			b=c.nextInt();
+			System.out.println("근로시간 "+a+"시간 / 시급 "+b+"원");
+			System.out.println("일주일 근무에 대한 예상 주휴수당은 "+((double)a/5)*b+"원 입니다");
+		}
+	}
+}

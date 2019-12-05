@@ -1,0 +1,60 @@
+import java.util.Scanner;
+
+class Person{
+	private String name,plays;
+	private int hour, minute, money;
+	public void People(String n, String p, int h, int m, int mo){
+		this.name = n;
+		this.plays = p;
+		this.hour = h;
+		this.minute = m;	
+		this.money = mo;
+	}
+	Scanner input = new Scanner(System.in); 
+	
+	public String getName(){	return input.next();}
+	public void setName(String n){	this.name = n;}
+	public String getPlays(){	return input.next();}
+	public void setplays(String p){	this.plays = p;}
+	public int getHour(){	return input.nextInt();}
+	public void setHour(int h){	this.hour = h;}
+	public int getMinute(){	return input.nextInt();}
+	public void setMinute(int m){	this.minute = m;}
+	public int getMoney(){	return input.nextInt();}
+	public void setMoney(int mo){	this.money = mo;}
+}
+
+public class Employee {
+	public static void main(String args[]){
+		int a, b = 1;
+		Scanner input = new Scanner(System.in); 
+		
+		Person people = new Person();
+		System.out.println("-----------------------------------------");
+		System.out.print("이름 : ");
+		people.getName();
+		System.out.print("근무지 : ");
+		people.getPlays();
+		System.out.println("-----------------------------------------");
+		
+		while(true){
+			System.out.println("근무시간을 추가하시겠습니까?(1:예, 2:아니요)");
+			a=input.nextInt();
+			if(a==1){
+				System.out.println("근무시간을 설정하세요. (ex. 15시 00분 → 15 00(시간, 분)");
+				System.out.println("근무시간"+b);
+				System.out.print("시작 시간 : ");
+				people.getHour();people.getMinute();
+				System.out.print("종료 시간 : ");
+				people.getHour();people.getMinute();
+				System.out.print("시급(원) : ");
+				people.getMoney();
+				b++;
+			}
+			else{
+				System.out.println("근무시간 설정이 완료되었습니다.");
+				break;
+			}
+		}
+	}
+}
